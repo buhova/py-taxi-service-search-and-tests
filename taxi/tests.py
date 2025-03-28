@@ -145,7 +145,23 @@ class FormTests(TestCase):
         self.assertTrue(license_number[3:].isdigit())
 
 
-class SearchFormTests(TestCase):
+class DriversUsernameSearchFormTest(TestCase):
+    def test_drivers_form_valid_with_username(self):
+        form_data = {"username": "test user"}
+        form = DriversUsernameSearchForm(data=form_data)
+        self.assertTrue(form.is_valid())
+
+    def test_drivers_form_valid_with_empty_username(self):
+        form_data = {"username": ""}
+        form = DriversUsernameSearchForm(data=form_data)
+        self.assertTrue(form.is_valid())
+
+    def test_drivers_form_invalid_with_long_username(self):
+        form_data = {"username": "a" * 256}
+        form = DriversUsernameSearchForm(data=form_data)
+        self.assertFalse(form.is_valid())
+        self.assertIn("username", form.errors)
+
     def test_drivers_form_label_is_empty(self):
         form = DriversUsernameSearchForm()
         self.assertEqual(form["username"].label, "")
@@ -155,6 +171,24 @@ class SearchFormTests(TestCase):
         placeholder = form["username"].field.widget.attrs["placeholder"]
         self.assertEqual(placeholder, "Search by username")
 
+
+class CarModelSearchFormTest(TestCase):
+    def test_car_form_valid_with_model(self):
+        form_data = {"model": "test model"}
+        form = CarModelSearchForm(data=form_data)
+        self.assertTrue(form.is_valid())
+
+    def test_car_form_valid_with_empty_model(self):
+        form_data = {"model": ""}
+        form = CarModelSearchForm(data=form_data)
+        self.assertTrue(form.is_valid())
+
+    def test_car_form_invalid_with_long_model(self):
+        form_data = {"model": "a" * 256}
+        form = CarModelSearchForm(data=form_data)
+        self.assertFalse(form.is_valid())
+        self.assertIn("model", form.errors)
+
     def test_car_form_label_is_empty(self):
         form = CarModelSearchForm()
         self.assertEqual(form["model"].label, "")
@@ -163,6 +197,24 @@ class SearchFormTests(TestCase):
         form = CarModelSearchForm()
         placeholder = form["model"].field.widget.attrs["placeholder"]
         self.assertEqual(placeholder, "Search by model")
+
+
+class ManufacturerNameSearchFormTest(TestCase):
+    def test_manufacturer_form_valid_with_name(self):
+        form_data = {"name": "test name"}
+        form = ManufacturerNameSearchForm(data=form_data)
+        self.assertTrue(form.is_valid())
+
+    def test_manufacturer_form_valid_with_empty_name(self):
+        form_data = {"name": ""}
+        form = ManufacturerNameSearchForm(data=form_data)
+        self.assertTrue(form.is_valid())
+
+    def test_manufacturer_form_invalid_with_long_name(self):
+        form_data = {"name": "a" * 256}
+        form = ManufacturerNameSearchForm(data=form_data)
+        self.assertFalse(form.is_valid())
+        self.assertIn("name", form.errors)
 
     def test_manufacturer_form_label_is_empty(self):
         form = ManufacturerNameSearchForm()
